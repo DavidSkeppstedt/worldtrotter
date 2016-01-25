@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ConversionViewController : UIViewController {
+class ConversionViewController : UIViewController, UITextFieldDelegate {
 	//MARK: IBOutlets
 	@IBOutlet var celsiusLabel:UILabel!
 	@IBOutlet var textField:UITextField!
@@ -43,6 +43,17 @@ class ConversionViewController : UIViewController {
 		} else {
 			celsiusLabel.text = "???"
 		}
+	}
+	//MARK: UITextFieldDelegate methods
+	func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
+		let exisitingTextHasDecimalSeparator = textField.text?.rangeOfString(".")
+		let replacementTextHasDecimalSeparator = string.rangeOfString(".")
+
+		if exisitingTextHasDecimalSeparator != nil && replacementTextHasDecimalSeparator != nil{
+			return false
+		}
+
+		return true
 	}
 
 
