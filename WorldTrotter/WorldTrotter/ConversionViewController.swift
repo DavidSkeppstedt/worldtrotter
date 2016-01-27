@@ -37,6 +37,11 @@ class ConversionViewController : UIViewController, UITextFieldDelegate {
 		return nf
 	}()
 
+	let numberCharset:NSCharacterSet = {
+		let cs = NSCharacterSet.decimalDigitCharacterSet()
+		return cs
+	}()
+
 	func updateCelsiusLabel() {
 		if let value = celsiusValue {
 			celsiusLabel.text = numberFormatter.stringFromNumber(value)
@@ -48,6 +53,11 @@ class ConversionViewController : UIViewController, UITextFieldDelegate {
 	func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
 		let exisitingTextHasDecimalSeparator = textField.text?.rangeOfString(".")
 		let replacementTextHasDecimalSeparator = string.rangeOfString(".")
+
+
+		if let first = string.utf16.first where !numberCharset.characterIsMember(first) {
+			return false
+		}
 
 		if exisitingTextHasDecimalSeparator != nil && replacementTextHasDecimalSeparator != nil{
 			return false
