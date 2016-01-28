@@ -10,11 +10,16 @@ import UIKit
 import MapKit
 class MapViewController:UIViewController {
 	var map:MKMapView!
+	let locationManager = CLLocationManager()
 	override func loadView() {
+		super.loadView() // alaways call the super implementation of loadview, but why?
 		//code that builds the view programatically goes here.
 		//this creates a new mapview and sets it as the root view.
 		map = MKMapView()
 		self.view = map
+		map.showsUserLocation = true
+
+
 
 		let segmentController = UISegmentedControl(items: ["Standard","Hybrid","Satellite"])
 		segmentController.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
@@ -34,6 +39,31 @@ class MapViewController:UIViewController {
 
 		segmentController.addTarget(self, action: "mapTypeChanged:", forControlEvents: .ValueChanged)
 
+		let positionButton = UIButton(frame: CGRect(x: 0, y: 0, width: 128, height: 64))
+		positionButton.translatesAutoresizingMaskIntoConstraints = false
+		positionButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+		positionButton.addTarget(self, action: "mapLocation:", forControlEvents: .TouchUpInside)
+		positionButton.setAttributedTitle(NSAttributedString(string:"Position"), forState: .Normal)
+
+		self.view.addSubview(positionButton)
+
+		let PBbottomConstrain = positionButton.bottomAnchor.constraintEqualToAnchor(self.bottomLayoutGuide.topAnchor)
+		let PBleadingConstrain = positionButton.leadingAnchor.constraintEqualToAnchor(margins.leadingAnchor)
+		let PBtrailingConstrain = positionButton.trailingAnchor.constraintEqualToAnchor(margins.trailingAnchor)
+
+		PBbottomConstrain.active = true
+		PBleadingConstrain.active = true
+		PBtrailingConstrain.active = true
+
+
+	}
+
+	override func viewDidAppear(animated: Bool) {
+		locationManager.requestWhenInUseAuthorization()
+	}
+
+	func mapLocation(button:UIButton) {
+		map.setUserTrackingMode(.Follow, animated: true)
 	}
 
 	func mapTypeChanged(segControl:UISegmentedControl) {
