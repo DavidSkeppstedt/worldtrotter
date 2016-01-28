@@ -7,8 +7,16 @@
 //
 
 import UIKit
-
+import MapKit
 class MapViewController:UIViewController {
+	var map:MKMapView!
+	override func loadView() {
+		//code that builds the view programatically goes here.
+		//this creates a new mapview and sets it as the root view.
+		map = MKMapView()
+		self.view = map
+	}
+
 	override func viewDidLoad() {
 		print("Hey i am here")
 	}
