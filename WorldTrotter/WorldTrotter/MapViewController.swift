@@ -19,7 +19,13 @@ class MapViewController:UIViewController {
 		self.view = map
 		map.showsUserLocation = true
 
+		let	birthPin = MKPointAnnotation()
+		birthPin.coordinate = CLLocationCoordinate2DMake(59.329319, 18.068583)
+		map.addAnnotation(birthPin)
 
+		let wannaGoPin = MKPointAnnotation()
+		wannaGoPin.coordinate = CLLocationCoordinate2DMake(51.507346, -0.127737)
+		map.addAnnotation(wannaGoPin)
 
 		let segmentController = UISegmentedControl(items: ["Standard","Hybrid","Satellite"])
 		segmentController.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
