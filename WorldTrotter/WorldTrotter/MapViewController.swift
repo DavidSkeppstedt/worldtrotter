@@ -62,6 +62,26 @@ class MapViewController:UIViewController {
 		PBtrailingConstrain.active = true
 
 
+		let zoomButton = UIButton(frame: CGRect(x: 0, y: 500, width: 128, height: 64))
+		zoomButton.translatesAutoresizingMaskIntoConstraints = false
+		zoomButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
+		zoomButton.addTarget(self, action: "zoomPin:", forControlEvents: .TouchUpInside)
+		zoomButton.setAttributedTitle(NSAttributedString(string:"Zoom"), forState: .Normal)
+
+		self.view.addSubview(zoomButton)
+
+
+
+	}
+
+	func zoomPin(but:UIButton){
+		//get first annotation
+		let aPoint = map.annotations[0]
+		let MapPoint = MKMapPointForCoordinate(aPoint.coordinate)
+		let pointRect = MKMapRectMake(MapPoint.x, MapPoint.y, 0.1, 0.1)
+		let zoomRect = MKMapRectUnion(MKMapRectNull, pointRect)
+
+		map.setVisibleMapRect(zoomRect, animated: true)
 	}
 
 	override func viewDidAppear(animated: Bool) {
