@@ -8,9 +8,20 @@
 
 import UIKit
 import MapKit
+
 class MapViewController:UIViewController {
+
 	var map:MKMapView!
 	let locationManager = CLLocationManager()
+
+	var counter:Int = 0{
+		didSet{
+			if counter > (map.annotations.count-1) {
+				self.counter = 0
+			}
+		}
+	}
+
 	override func loadView() {
 		super.loadView() // alaways call the super implementation of loadview, but why?
 		//code that builds the view programatically goes here.
@@ -26,7 +37,7 @@ class MapViewController:UIViewController {
 		let wannaGoPin = MKPointAnnotation()
 		wannaGoPin.coordinate = CLLocationCoordinate2DMake(51.507346, -0.127737)
 		map.addAnnotation(wannaGoPin)
-
+		
 		let segmentController = UISegmentedControl(items: ["Standard","Hybrid","Satellite"])
 		segmentController.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
 		segmentController.selectedSegmentIndex = 0
@@ -62,13 +73,17 @@ class MapViewController:UIViewController {
 		PBtrailingConstrain.active = true
 
 
-		let zoomButton = UIButton(frame: CGRect(x: 0, y: 500, width: 128, height: 64))
+		let zoomButton = UIButton(frame: CGRect(x: 0, y: 0, width: 128, height: 64))
 		zoomButton.translatesAutoresizingMaskIntoConstraints = false
 		zoomButton.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.8)
 		zoomButton.addTarget(self, action: "zoomPin:", forControlEvents: .TouchUpInside)
 		zoomButton.setAttributedTitle(NSAttributedString(string:"Zoom"), forState: .Normal)
-
 		self.view.addSubview(zoomButton)
+
+		let zoomButBottomConstrain = zoomButton.bottomAnchor.constraintEqualToAnchor(positionButton.topAnchor)
+		zoomButBottomConstrain.active = true
+
+
 
 
 
@@ -76,12 +91,13 @@ class MapViewController:UIViewController {
 
 	func zoomPin(but:UIButton){
 		//get first annotation
-		let aPoint = map.annotations[0]
+		let aPoint = map.annotations[counter]
 		let MapPoint = MKMapPointForCoordinate(aPoint.coordinate)
 		let pointRect = MKMapRectMake(MapPoint.x, MapPoint.y, 0.1, 0.1)
 		let zoomRect = MKMapRectUnion(MKMapRectNull, pointRect)
 
 		map.setVisibleMapRect(zoomRect, animated: true)
+		counter+=1
 	}
 
 	override func viewDidAppear(animated: Bool) {
