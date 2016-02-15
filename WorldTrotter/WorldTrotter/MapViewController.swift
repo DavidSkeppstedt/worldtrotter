@@ -37,8 +37,13 @@ class MapViewController:UIViewController {
 		let wannaGoPin = MKPointAnnotation()
 		wannaGoPin.coordinate = CLLocationCoordinate2DMake(51.507346, -0.127737)
 		map.addAnnotation(wannaGoPin)
-		
-		let segmentController = UISegmentedControl(items: ["Standard","Hybrid","Satellite"])
+
+		let standardString = NSLocalizedString("Standard", comment: "Standard view map")
+		let hybridString = NSLocalizedString("Hybrid", comment: "Hybrid view")
+		let satelliteString = NSLocalizedString("Staellite",comment:"Satellite view")
+
+
+		let segmentController = UISegmentedControl(items: [standardString,hybridString,satelliteString])
 		segmentController.backgroundColor = UIColor.whiteColor().colorWithAlphaComponent(0.5)
 		segmentController.selectedSegmentIndex = 0
 		segmentController.translatesAutoresizingMaskIntoConstraints = false
